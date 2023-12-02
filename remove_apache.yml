@@ -4,19 +4,20 @@
   become: true
   tasks:
 
-  - name: update repo index
+  - name: install apache2 and php packages
     apt: 
       update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: remove apache2 package
-    apt: 
-      name: apache2
+      name: 
+        - apache2
+        - libapache2-mod-php
       state: absent
     when: ansible_distribution == "Debian"
 
-  - name: add PHP support for apache
-    apt:
-      name: libapache2-mod-php
+  - name: install apache2 and php packages
+    dnf: 
+      update_cache: yes
+      name: 
+        - httpd
+        - php
       state: absent
-    when: ansible_distribution == "Debian"
+    when: ansible_distribution == "CentOS"
